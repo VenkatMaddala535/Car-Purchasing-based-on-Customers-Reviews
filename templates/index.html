@@ -1,0 +1,185 @@
+
+
+{% extends 'base.html' %}
+{% block title %}
+    Car Purchase
+{% endblock %}
+{% block content %}
+    {% load static %}
+    <!-- ======= Hero Section ======= -->
+    <section id="hero" class="hero d-flex align-items-center">
+
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 d-flex flex-column justify-content-center">
+                    <h1 data-aos="fade-up"> Predicting Car Purchase Based on Customers Demands</h1>
+                    <h2 data-aos="fade-up" data-aos-delay="400">We are team of talented designers making websites with
+                        Bootstrap</h2>
+                    <div data-aos="fade-up" data-aos-delay="600">
+                        <div class="text-center text-lg-start">
+                            <a href="#about"
+                               class="btn-get-started scrollto d-inline-flex align-items-center justify-content-center align-self-center">
+                                <span>Get Started</span>
+                                <i class="bi bi-arrow-right"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 hero-img" data-aos="zoom-out" data-aos-delay="200">
+                    <img src="{% static 'assets/img/car.png' %}" class="img-fluid" alt="">
+                </div>
+            </div>
+        </div>
+
+    </section><!-- End Hero -->
+
+    <main id="main">
+        <!-- ======= About Section ======= -->
+        <section id="about" class="about">
+
+            <div class="container" data-aos="fade-up">
+                <div class="row gx-lg-0">
+
+                    <div class="col-lg-6 d-flex flex-column justify-content-center" data-aos="fade-up"
+                         data-aos-delay="200">
+                        <div class="content">
+                            <h3>
+                                Abstract
+
+                            </h3>
+                            <h2>
+                                The automobile industry is one of the prominent
+                                industries for the national economy.
+
+                            </h2>
+                            <p style="text-align: justify">
+                                Day by day car is getting
+                                popular for the private transport system. The customer needs
+                                review when he wants to buy the right vehicle, especially the car.
+                                Because it is a very costly vehicle. There are many conditions and
+                                factors ...
+                            </p>
+                            <div class="text-center text-lg-start">
+                                <a href="#faq"
+                                   class="btn-read-more d-inline-flex align-items-center justify-content-center align-self-center">
+                                    <span>Read More</span>
+                                    <i class="bi bi-arrow-right"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6 d-flex align-items-center" data-aos="zoom-out" data-aos-delay="200">
+                        {#                                    <img src="{% static 'assets/img/about.jpg' %}" class="img-fluid" alt="">#}
+                        <img src="{% static 'assets/cars/car2.png' %}" class="img-fluid" alt="">
+
+                    </div>
+
+                </div>
+            </div>
+
+        </section><!-- End About Section -->
+
+
+        <!-- ======= F.A.Q Section ======= -->
+        <section id="faq" class="faq">
+
+            <div class="container" data-aos="fade-up">
+
+                <header class="section-header">
+                    <h2>Information </h2>
+                    <p>Information About This Application</p>
+                </header>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <!-- F.A.Q List 1-->
+                        <div class="accordion accordion-flush" id="faqlist1">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#faq-content-1">
+                                        Abstration About This Project
+                                    </button>
+                                </h2>
+                                <div id="faq-content-1" class="accordion-collapse collapse" data-bs-parent="#faqlist1">
+                                    <div class="accordion-body" style="text-align: justify">
+                                        The automobile industry is one of the prominent
+                                        industries for the national economy. Day by day car is getting
+                                        popular for the private transport system. The customer needs
+                                        review when he wants to buy the right vehicle, especially the car.
+                                        Because it is a very costly vehicle. There are many conditions and
+                                        factors matter before buying a new car like spare parts, cylinder
+                                        volume, headlight and especially price. So deciding everything,
+                                        it is important for the customer to make the right choice of
+                                        purchase which can satisfy all the criteria. Our goal is to help
+                                        the customer to make the right decision whether he will buy a car
+                                        or not. Therefore we wanted to build a technique for decision
+                                        making in-car buy system. That’s why we propose some wellknown algorithms to get
+                                        better
+                                        accuracy for a car purchase in our
+                                        paper. We applied those algorithms in our dataset which contains
+                                        50 data. Among them, Support Vector Machine(SVM) gives the
+                                        best result with 86.7% accuracy of prediction. In this paper,
+                                        we have also revealed the comparative results using different
+                                        algorithms precision, recall and F1 score for all data samples.
+                                        Index Terms—Supervised Machine Learning, Naive Bayes,
+                                        Random Forest tree, Support Vector Machine, KNN, Accuracy,
+                                        Cosine Similarity
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#faq-content-2">
+                                        Limitations And Future Work
+                                    </button>
+                                </h2>
+                                <div id="faq-content-2" class="accordion-collapse collapse" data-bs-parent="#faqlist1">
+                                    <div class="accordion-body" style="text-align: justify">
+                                        We have used 5 features for predicting the final output. in
+                                        future we will collect more features for prediction and increase
+                                        our dataset. We will use a more efficient technique to get
+                                        better accuracy. We will intend to apply some more advanced
+                                        machine learning techniques like Fuzzy logic, Decision Tree,
+                                        Artificial Neural Network, Ordinary Least Squares Regression
+                                        (OLSR), Fuzzy logic etc as our future work. This work can
+                                        be enlarged by choosing more features for classification also.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="accordion-item">
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#faq-content-3">
+                                        Conclusion
+                                    </button>
+                                </h2>
+                                <div id="faq-content-3" class="accordion-collapse collapse" data-bs-parent="#faqlist1">
+                                    <div class="accordion-body">
+                                        In our study, we mainly focused on Customer’s review
+                                        and we have used Cosine Similarity to analyze customer’s
+                                        review. Then we applied several algorithms on our dataset. We
+                                        have compared those algorithms according to their accuracy.
+                                        Support Vector Machine has given the highest accuracy among
+                                        all the algorithms.
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section><!-- End F.A.Q Section -->
+
+
+    </main><!-- End #main -->
+
+{% endblock %}
+

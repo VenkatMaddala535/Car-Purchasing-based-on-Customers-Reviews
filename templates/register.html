@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block title %}User Registration {% endblock %}
+
+{% block content %}
+    <style>
+        .success {
+            list-style: none;
+            color: blue;
+        }
+    </style>
+    {% load static %}
+    <section id="hero" class="hero d-flex align-items-center" style="margin-top: 100px;">
+
+        <div class="container">
+            <div class="row offset-md-3 col-md-10 ">
+                <div class="col-lg-6 d-flex flex-column justify-content-center">
+
+                    <div data-aos="fade-up" data-aos-delay="600">
+                        <div class="text-center text-lg-start">
+
+                            <form action="{% url 'users_:user_register_action' %}" method="POST" class="form-group"
+                                  style="background-color:#ced4da; padding: 30px;
+                                   border-radius: 2%">
+                                <legend align="center">
+                                    <img src="{% static 'assets/img/user.png' %}" alt="User" width="15%">
+                                    <br>
+                                    SignUp
+                                </legend>
+                                {% csrf_token %}
+                                {{ form.as_p }}
+
+                                <p align="center">
+                                    <input type="submit" value="Save" class="btn btn-primary btn-lg px-lg-5">
+                                    &nbsp;
+                                    <input type="reset" value="Reset" class="btn btn-outline-danger btn-lg">
+                                </p>
+
+                                <!-- Messages -->
+
+                                    {% if messages %}
+                                        <ul class="messages">
+                                            {% for message in messages %}
+                                                <li{% if message.tags %}
+                                                    class="{{ message.tags }}"{% endif %}>
+                                                    {{ message }}
+                                                </li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+
+    </section><!-- End Hero -->
+
+{% endblock %}
