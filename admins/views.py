@@ -57,20 +57,25 @@ def activate_user(request, id):
 
 def admin_results(request):
     from users.algorithms import AlgorithmUtility
-    lg_accuracy, lg_precision, lg_recall, lg_f1score = AlgorithmUtility.calc_logistic_regression()
-    dt_accuracy, dt_precision, dt_recall, dt_f1score = AlgorithmUtility.calc_decision_tree()
+    #lg_accuracy, lg_precision, lg_recall, lg_f1score = AlgorithmUtility.calc_logistic_regression()
+    #dt_accuracy, dt_precision, dt_recall, dt_f1score = AlgorithmUtility.calc_decision_tree()
     rf_accuracy, rf_precision, rf_recall, rf_f1score = AlgorithmUtility.calc_random_forest()
     svm_accuracy, svm_precision, svm_recall, svm_f1score = AlgorithmUtility.calc_support_vector_classifier()
     nb_accuracy, nb_precision, nb_recall, nb_f1score = AlgorithmUtility.calc_naive_bayes_classifier()
     knn_accuracy, knn_precision, knn_recall, knn_f1score = AlgorithmUtility.calc_k_nearest_neighbour_classifier()
     # ann_accuracy, ann_precision, ann_recall, ann_f1score = AlgorithmUtility.calculate_ann_results()
 
-    lg = {"lg_accuracy": lg_accuracy, "lg_precision": lg_precision, "lg_recall": lg_recall, "lg_f1score": lg_f1score}
-    dt = {"dt_accuracy": dt_accuracy,"dt_precision": dt_precision,"dt_recall":dt_recall,"dt_f1score": dt_f1score}
+    #lg = {"lg_accuracy": lg_accuracy, "lg_precision": lg_precision, "lg_recall": lg_recall, "lg_f1score": lg_f1score}
+    #dt = {"dt_accuracy": dt_accuracy,"dt_precision": dt_precision,"dt_recall":dt_recall,"dt_f1score": dt_f1score}
     rf = {"rf_accuracy": rf_accuracy, "rf_precision": rf_precision, "rf_recall": rf_recall, "rf_f1score": rf_f1score}
     svm = {"svm_accuracy": svm_accuracy, "svm_precision": svm_precision, "svm_recall": svm_recall, "svm_f1score": svm_f1score}
     nb = {"nb_accuracy": nb_accuracy, "nb_precision": nb_precision, "nb_recall": nb_recall, "nb_f1score": nb_f1score}
     knn = {"knn_accuracy": knn_accuracy, "knn_precision": knn_precision, "knn_recall": knn_recall, "knn_f1score": knn_f1score}
     # ann = {"ann_accuracy": ann_accuracy, "ann_precision": ann_precision, "ann_recall": ann_recall,
     #        "ann_f1score": ann_f1score}
-    return render(request, "admins/admin_results.html", {"lg": lg, "dt": dt, "rf": rf, "svm": svm, "nb": nb, "knn": knn})
+    return render(request, "admins/admin_results.html", {#"lg": lg, 
+                                                        #"dt": dt,
+                                                        "rf": rf,
+                                                        "svm": svm,
+                                                        "nb": nb,
+                                                        "knn": knn})
