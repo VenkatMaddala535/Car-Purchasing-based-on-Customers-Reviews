@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: car-project
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: car-project
+  template:
+    metadata:
+      labels:
+        app: car-project
+    spec:
+      containers:
+        - name: car-project
+          image: venkatmaddala/car-purchasing-based-on-customers-reviews:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+          env:
+          - name: SECRET_KEY
+            value: "replace-me"
+          # Using an inline shell script to patch settings.py right before running the entrypoint
+          command: ["/bin/sh", "-c"]
+          args:
+            - |
+              # 1. Locate settings.py inside the container and append overrides
+              # (Assumes standard Django layout. Adjust path if settings.py lives elsewhere)
+              TARGET_FILE=$(find . -name "settings.py" | head -n 1)
+              
+              if [ -f "$TARGET_FILE" ]; then
+                echo "" >> "$TARGET_FILE"
+                echo "ALLOWED_HOSTS = ['*']" >> "$TARGET_FILE"
+                echo "CSRF_TRUSTED_ORIGINS = ['http://*']" >> "$TARGET_FILE"
+                echo "Successfully patched $TARGET_FILE inside container"
+              else
+                echo "Warning: settings.py not found automatically, falling back to entrypoint directly"
+              fi
+              
+              # 2. Execute your original entrypoint script to boot up Django cleanly
+              exec /entrypoint.sh
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: car-project-service
+spec:
+  selector:
+    app: car-project
+  type: NodePort
+  ports:
+    - port: 8000
+      targetPort: 8000
+      nodePort: 30080
+
