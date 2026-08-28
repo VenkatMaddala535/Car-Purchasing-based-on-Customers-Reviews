@@ -46,7 +46,7 @@ spec:
           - name: SSL_CERT_DATA
             valueFrom:
               secretKeyRef:
-                name: my-tls-secret 
+                name: 
                 key: tls.crt        
 
           - name: SSL_KEY_DATA
@@ -59,53 +59,68 @@ spec:
           command: ["/bin/sh", "-c"]
           args:
             - |
-              # 1. Locate settings.py inside the container and append overrides
-              # (Assumes standard Django layout. Adjust path if settings.py lives elsewhere)
-              TARGET_FILE=$(find . -name "settings.py" | head -n 1)
+              # Write the SSL credentials from environment variables to files
+              echo "$SSL_CERT_DATA" > /tmp/tls.crt
+              echo "$SSL_KEY_DATA" > /tmp/tls.key
+
+              # Locate and configure Django settings
+              SETTINGS_FILE=$(find . -name "settings.py" | head -n 1)
               
-              if [ -f "$TARGET_FILE" ]; then
-                echo "" >> "$TARGET_FILE"
-                echo "ALLOWED_HOSTS = ['*']" >> "$TARGET_FILE"
-                echo "CSRF_TRUSTED_ORIGINS = ['http://*']" >> "$TARGET_FILE"
-                echo "Successfully patched $TARGET_FILE inside container"
-              else
-                echo "Warning: settings.py not found automatically, falling back to entrypoint directly"
+              if [ -f "$SETTINGS_FILE" ]; then
+                cat << 'EOF' >> "$SETTINGS_FILE"
+
+              # --- Kubernetes Ingress/HTTPS Configurations ---
+              SECURE_SSL_REDIRECT = False
+              SESSION_COOKIE_SECURE = True
+              CSRF_COOKIE_SECURE = True
+              SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+              EOF
               fi
-              
-              # 2. Execute your original entrypoint script to boot up Django cleanly
-              exec /entrypoint.sh
+
+              # Find the WSGI module dynamically
+              WSGI_PATH=$(find . -name "wsgi.py" | head -n 1)
+              MODULE_NAME=$(echo "$WSGI_PATH" | sed 's|./||; s|/wsgi.py||; s|/|.|g')
+
+              # Run Gunicorn termination natively on HTTP port 8000
+              # Nginx Ingress will handle the HTTPS decryption layer
+              exec gunicorn ${MODULE_NAME}.wsgi:application --bind 0.0.0.0:8000
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: car-project-service
+  name: car-service
 spec:
   selector:
     app: car-project
   ports:
     - protocol: TCP
-      port: 8000
+      port: 80
       targetPort: 8000
+  type: ClusterIP
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: car-project-ingress
+  name: car-ingress
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
 spec:
-  ingressClassName: nginx
   tls:
-    - hosts:
-        - pipeline.d2.com
-      secretName: my-tls-secret
+  - hosts:
+    - yourdomain.com
+    secretName: my-tls-secret
   rules:
-   - host: "pipeline.d2.com"
-     http:
-        paths:
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: car-project-service
-                port:
-                  number: 8000
+  - host: yourdomain.com
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: car-service
+            port:
+              number: 80
 
