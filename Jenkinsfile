@@ -2,7 +2,7 @@ pipeline
 {
     agent
     {
-        label 'pipeline-linux-aget'
+        label 'pipeline-linux-agent'
     }
     stages
     {
