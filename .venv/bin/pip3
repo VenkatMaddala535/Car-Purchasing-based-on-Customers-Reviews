@@ -1,4 +1,4 @@
-#!/dd/home/anilc/venkat/Car-Purchasing-based-on-Customers-Reviews/.venv/bin/python
+#!/dd/home/vrmaddala/Car-Purchasing-based-on-Customers-Reviews/.venv/bin/python
 # -*- coding: utf-8 -*-
 import re
 import sys
