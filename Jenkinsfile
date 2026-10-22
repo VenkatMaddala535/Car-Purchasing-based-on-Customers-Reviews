@@ -20,7 +20,10 @@ pipeline
 
         stage('pylint')
         {
-            sh '.venv/bin/python -m pylint src/hello_web'
+            steps 
+            {
+                sh '.venv/bin/python -m pylint src/hello_web'
+            }
         }
     }
 }
