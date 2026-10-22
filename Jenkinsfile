@@ -11,9 +11,7 @@ pipeline
             steps 
             {
                 sh '''
-                    python3 -m venv venv
-                    . venv/bin/activate
-                    python --version
+                     python3.11 -m venv .venv
                 '''
             }
         }
@@ -22,7 +20,7 @@ pipeline
         {
             steps 
             {
-                sh '.venv/bin/python3 -m pip install -r requirements.txt'
+                sh '.venv/bin/python -m pip install -r requirements.txt'
             }
         }
 
