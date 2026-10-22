@@ -2,22 +2,10 @@ pipeline
 {
     agent
     {
-        label 'pipeline-linux-agent'
+        label 'pipeline-agent'
     }
     stages
     {
-        stage('Creating Virtual Environment')
-        {
-            steps
-            {
-                sh '''
-                python3 --version
-                pip --version
-                git --version
-                docker --version
-                '''
-            }
-        }
         stage('Create Virtual Environment') 
         {
             steps 
