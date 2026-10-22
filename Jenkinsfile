@@ -22,7 +22,7 @@ pipeline
         {
             steps 
             {
-                sh '.venv/bin/python -m pip install requirements.txt'
+                sh '.venv/bin/python3 -m pip install requirements.txt'
             }
         }
 
