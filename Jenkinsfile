@@ -18,6 +18,15 @@ pipeline
             }
         }
 
+        stage('Installing dependencies') 
+        {
+            steps 
+            {
+                sh '.venv/bin/python -m pip install requirements.txt'
+            }
+        }
+
+
         stage('pylint')
         {
             steps 
