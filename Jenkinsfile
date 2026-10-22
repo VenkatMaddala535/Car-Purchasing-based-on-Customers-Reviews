@@ -29,7 +29,7 @@ pipeline
         {
             steps 
             {
-                sh '.venv/bin/python -m pylint src/hello_web'
+                sh '.venv/bin/python -m pylint CarPurchase'
             }
         }
     }
