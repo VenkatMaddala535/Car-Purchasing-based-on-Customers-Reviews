@@ -33,16 +33,23 @@ pipeline
         //     }
         // }
 
+
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv('SonarQube') {
                     script {
                         def scannerHome = tool 'SonarScanner'
-                        sh "${scannerHome}/bin/sonar-scanner"
+                        sh """
+                            ${scannerHome}/bin/sonar-scanner \
+                            -Dsonar.projectKey=car-purchasing-reviews \
+                            -Dsonar.projectName=Car-Purchasing-based-on-Customers-Reviews \
+                            -Dsonar.sources=.
+                        """
                     }
                 }
             }
         }
+
 
         stage('Build and save artifact') {
             steps {
