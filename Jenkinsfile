@@ -24,7 +24,6 @@ pipeline
             }
         }
 
-
         // stage('pylint')
         // {
         //     steps 
@@ -32,7 +31,6 @@ pipeline
         //         sh '.venv/bin/python -m pylint CarPurchase'
         //     }
         // }
-
 
         stage('SonarQube Analysis') {
             steps {
@@ -50,16 +48,20 @@ pipeline
             }
         }
 
-
         stage('Build and save artifact') {
             steps {
                 sh '''
                     rm -rf dist
-                    .venv/bin/python -m build
+                    mkdir -p dist
+                    zip -r dist/car-purchasing-reviews.zip . \
+                        -x ".git/*" ".venv/*" "venv/*" \
+                        "__pycache__/*" "*/__pycache__/*" \
+                        "dist/*" "*.pyc"
                 '''
-                archiveArtifacts artifacts: 'dist/*', fingerprint: true
+                archiveArtifacts artifacts: 'dist/*.zip', fingerprint: true
             }
         }
+
 
     }
 }
