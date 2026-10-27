@@ -62,6 +62,58 @@ pipeline
             }
         }
 
+        stage('Build Docker Image') {
+            steps {
+                sh '''
+                    docker build \
+                        -t car-purchasing-based-on-customers-reviews:${BUILD_NUMBER} \
+                        -t car-purchasing-based-on-customers-reviews:latest .
+
+                    docker images | grep car-purchasing-based-on-customers-reviews
+                '''
+            }
+        }
+
+        stage('Push to Docker Hub') {
+            steps {
+                echo 'DEBUG 1: Push stage started'
+
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'docker-push-cred',
+                        usernameVariable: 'DOCKERHUB_USER',
+                        passwordVariable: 'DOCKERHUB_TOKEN'
+                    )
+                ]) {
+                    sh '''
+                        set -eu
+
+                        echo "DEBUG 2: Credentials loaded"
+                        DOCKERHUB_REPO="${DOCKERHUB_USER}/car-purchasing-based-on-customers-reviews"
+
+                        echo "DEBUG 3: Checking Docker access"
+                        docker info >/dev/null
+
+                        echo "DEBUG 4: Logging in"
+                        # docker login --username <username> --password-stdin
+                        echo "$DOCKERHUB_TOKEN" | docker login --username "$DOCKERHUB_USER" --password-stdin
+
+                        echo "DEBUG 5: Tagging images"
+                        # docker tag SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]
+                        docker tag car-purchasing-based-on-customers-reviews:${BUILD_NUMBER} "$DOCKERHUB_REPO:${BUILD_NUMBER}"
+                        docker tag car-purchasing-based-on-customers-reviews:latest "$DOCKERHUB_REPO:latest"
+
+                        echo "DEBUG 6: Pushing images"
+                        docker push "$DOCKERHUB_REPO:${BUILD_NUMBER}"
+                        docker push "$DOCKERHUB_REPO:latest"
+
+                        docker logout
+                        echo "DEBUG 7: Push completed"
+                    '''
+                }
+            }
+        }
+
 
     }
 }
