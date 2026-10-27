@@ -11,3 +11,4 @@ six
 sqlparse
 threadpoolctl
 pylint
+build
